@@ -8,7 +8,7 @@ pipeline {
     }
 
     environment {
-        AWS_CREDENTIALS_ID = 'aws-crendentails-aakash' // Update this if needed
+        AWS_CREDENTIALS_ID = 'aws-credentials-aakash' // Update this if needed
     }
 
     stages {
