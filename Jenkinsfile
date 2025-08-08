@@ -8,34 +8,28 @@ pipeline {
     }
 
     environment {
-        AWS_CREDENTIALS_ID = 'aws-credentials-aakash' // Update this if needed
-    }
-
-pipeline {
-    agent any
-
-    parameters {
-        booleanParam(name: 'DESTROY_TERRAFORM', defaultValue: false, description: 'Run terraform destroy?')
+        AWS_CREDENTIALS_ID = 'aws-crendentials-aakash' // Update this if needed
     }
 
     stages {
-        stage('Terraform Destroy') {
-            when {
-                expression { return params.DESTROY_TERRAFORM }
-            }
+        stage('Clone Repository') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'my-aws-credentials-id']]) {
+                deleteDir()
+                git branch: 'main', url: 'https://github.com/AAKASHDEEP786/devops-project-1.git'
+                sh "ls -lart"
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     dir('infra') {
+                        sh 'echo "=================Terraform Init=================="'
                         sh 'terraform init'
-                        sh 'echo "=================Terraform Destroy=================="'
-                        sh 'terraform destroy -auto-approve'
                     }
                 }
             }
         }
-    }
-}
-
 
         stage('Terraform Validate') {
             when {
