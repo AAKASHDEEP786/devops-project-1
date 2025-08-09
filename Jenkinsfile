@@ -64,7 +64,7 @@ pipeline {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     dir('infra') {
                         sh 'echo "=================Terraform Apply=================="'
-                        sh 'terraform apply -auto-approve'
+                        sh 'terraform apply --auto-approve'
                     }
                 }
             }
@@ -78,7 +78,7 @@ pipeline {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
                     dir('infra') {
                         sh 'echo "=================Terraform Destroy=================="'
-                        sh 'terraform destroy -auto-approve'
+                        sh 'terraform destroy --auto-approve'
                     }
                 }
             }
